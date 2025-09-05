@@ -7,24 +7,43 @@ public class InventoryService {
 
     public void add(Product p){ map.put(p.id(), p); }
 
-    // Dirty: return codes + nulls
-    public Product find(String id){
-        if(map.containsKey(id)) return map.get(id);
-        return null;
+    public Result<Product> find(String id){
+        Product data = map.get(id);
+
+        if(data == null)
+            return Result.failure(ErrorCode.NOT_FOUND);
+
+        return Result.success(data);
     }
 
-    public int reserve(String id, int qty){
-        Product p = map.get(id);
-        if(p==null) return -1; // not found
-        if(p.stock() < qty) return -2; // insufficient
+    public Result<Void> reserve(String id, int qty){
+        Result<Product> product = find(id);
+
+        if(!product.isSuccess()) {
+            return Result.failure(product.getError());
+        }
+
+        Product p = product.getData();
+
+        if(p.stock() < qty)
+            return Result.failure(ErrorCode.INSUFFICIENT_STOCK);
+
         map.put(id, new Product(p.id(), p.name(), p.stock()-qty));
-        return 0;
+
+        return Result.success(null);
     }
 
-    public int release(String id, int qty){
-        Product p = map.get(id);
-        if(p==null) return -1;
+    public Result<Void> release(String id, int qty){
+        Result<Product> product = find(id);
+
+        if(!product.isSuccess()) {
+            return Result.failure(product.getError());
+        }
+
+        Product p = product.getData();
+
         map.put(id, new Product(p.id(), p.name(), p.stock()+qty));
-        return 0;
+
+        return Result.success(null);
     }
 }
