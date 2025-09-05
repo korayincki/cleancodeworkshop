@@ -54,8 +54,13 @@ public class PasswordValidator {
         char last=0;
         int repeat=1;
         for(char c : password.toCharArray()) {
-            if(c==last) { repeat++; if(repeat>=3) return true; }
-            else { repeat=1; last=c; }
+            if(c == last) {
+                if(++repeat >= 3) return true;
+            }
+            else {
+                repeat = 1;
+                last = c;
+            }
         }
         return false;
     }
