@@ -1,39 +1,36 @@
 package com.workshop.godclass;
 
-import java.io.IOException;
-import java.nio.file.*;
-import java.time.LocalDateTime;
-import java.util.*;
+import com.workshop.godclass.service.*;
 
 public class OrderProcessor {
-    // Dirty: God method, hidden I/O, static config, mixed concerns
+    private final DiscountService discountService = new DiscountService();
+    private final ShippingService shippingService = new ShippingService();
+    private final TaxService taxService = new TaxService();
+    private final PersistanceService persistanceService = new PersistanceService();
+    private final NotificationService notificationService = new NotificationService();
+    private final PaymentService paymentService = new PaymentService();
+
     public boolean process(Order order){
         double total = 0;
-        for(Order.OrderLine l: order.lines()){
-            total += l.qty() * l.unitPrice();
+        for(Order.OrderLine line : order.lines()){
+            total += line.qty() * line.unitPrice();
         }
-        // discounts
-        if(total > 500) total = total * 0.95;
-        if(total > 1000) total = total * 0.90;
-        // shipping
-        if(total < 100) total += 9.99;
-        // tax
-        total = total * 1.18;
 
-        // persist
-        try {
-            Path p = Paths.get("orders", order.id()+".txt");
-            Files.createDirectories(p.getParent());
-            Files.writeString(p, order.id()+","+total+","+ LocalDateTime.now());
-        } catch (IOException e) {
+        total = discountService.calculateDiscount(total);
+
+        total = shippingService.calculateShipping(total);
+
+        total = taxService.calculateTax(total);
+
+        boolean isPersisted = persistanceService.save(order, total);
+
+        if(!isPersisted){
             return false;
         }
 
-        // notify
-        System.out.println("Email to "+order.customerEmail()+": your total is "+total);
+        notificationService.notify(order, total);
 
-        // payment (fake)
-        System.out.println("Charging credit card for "+total);
+        paymentService.processPayment(total);
 
         return true;
     }
