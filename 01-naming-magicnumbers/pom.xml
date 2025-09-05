@@ -8,7 +8,7 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>01-naming-magicnumbers</artifactId>
-  <name>01 — Naming & Magic Numbers</name>
+  <name>01 — Naming Magic Numbers</name>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

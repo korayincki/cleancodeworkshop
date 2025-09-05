@@ -8,7 +8,7 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>03-deadcode-duplication</artifactId>
-  <name>03 — Dead Code & Duplication</name>
+  <name>03 — Dead Code Duplication</name>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

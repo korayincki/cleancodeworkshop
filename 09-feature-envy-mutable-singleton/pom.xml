@@ -8,7 +8,7 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>09-feature-envy-mutable-singleton</artifactId>
-  <name>09 — Feature Envy & Mutable Singleton</name>
+  <name>09 — Feature Envy Mutable Singleton</name>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

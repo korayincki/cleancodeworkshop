@@ -8,7 +8,7 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>04-primitive-obsession</artifactId>
-  <name>04 — Primitive Obsession & Data Clumps</name>
+  <name>04 — Primitive Obsession Data Clumps</name>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>

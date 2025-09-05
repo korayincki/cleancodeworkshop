@@ -8,7 +8,7 @@
     <version>1.0.0</version>
   </parent>
   <artifactId>06-error-handling-null</artifactId>
-  <name>06 — Error Handling & Null</name>
+  <name>06 — Error Handling Null</name>
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
